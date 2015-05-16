@@ -1,0 +1,19 @@
+{
+  "name": "Angular-Bootstrap-Gulp-AMD",
+  "version": "0.0.1",
+  "homepage": "https://github.com/MilosMosovsky/Angular-Bootstrap-Gulp-AMD",
+  "authors": [
+    "Milos Mosovsky <milos.mosovsky@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.4"
+  }
+}
