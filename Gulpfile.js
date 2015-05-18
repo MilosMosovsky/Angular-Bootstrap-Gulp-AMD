@@ -3,7 +3,9 @@ var bower = require('gulp-bower');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 var connect = require('gulp-connect');
-
+var git = require('gulp-git');
+var replace = require('gulp-replace');
+var clean = require('gulp-clean');
 
 var paths = {
 
@@ -52,7 +54,13 @@ gulp.task('sass', function (){
         // Funally put the compiled sass into a css file
         .pipe(gulp.dest(paths.styles.dest))
 });
-
+gulp.task('copy',['replace-bump'], function()
+{
+    gulp.src('dev/js/**/*')
+        .pipe(gulp.dest('public/js'));
+    gulp.src('dev/fonts/**/**')
+        .pipe(gulp.dest('public/fonts/'))
+});
 gulp.task('bower', function() {
     return bower()
         .pipe(gulp.dest('public/lib/'))
@@ -66,6 +74,7 @@ gulp.task('default', ['bower','sass'], function() {
                 '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
             );
         });
+
 });
 gulp.task('connect', function() {
     connect.server({
@@ -74,7 +83,30 @@ gulp.task('connect', function() {
         host : 'localhost'
     });
 });
+gulp.task('replace-bump',function(){
+    /*gulp.src(['dev/js/shim.js'])
+        .pipe(replace(/shim\=[A-z0-9]+/g, '$1foo'))
+        .pipe(gulp.dest('build/file.txt'));*/
+    git.exec({args : 'log -n 1 | head -n 1 | sed -e \'s/^commit //\' | head -c 8'}, function (err, stdout) {
+        var lastVersion = stdout;
+        gulp.src(['dev/js/shim.js'])
+         .pipe(replace(/bump\=[A-z0-9]+/g, 'bump=' + lastVersion))
+         .pipe(gulp.dest('dev/js'));
+
+        gulp.src(['dev/js/config/run.js'])
+            .pipe(replace(/version \: \'[A-z0-9]+\'/g, 'version : \'' +lastVersion + '\''))
+            .pipe(gulp.dest('dev/js/config'));
+
+
+    });
+});
 gulp.task('watch', function () {
     gulp.watch(['./public/*.html']);
+    gulp.watch('dev/js/**/*.js', ['copy'])
+        .on('change', function(evt) {
+            console.log(
+                '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
+            );
+        });
 });
-gulp.task('server', ['bower','sass','connect', 'watch']);
+gulp.task('server', ['bower','sass','copy','connect', 'watch']);
