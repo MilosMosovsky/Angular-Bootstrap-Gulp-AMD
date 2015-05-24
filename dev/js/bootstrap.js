@@ -1,5 +1,6 @@
 define([
     'angular',
+    './config/routes',
     './config/run'
 ], function (ng) {
     var app =  ng.module('Application', [

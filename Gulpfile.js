@@ -59,7 +59,9 @@ gulp.task('copy',['replace-bump'], function()
     gulp.src('dev/js/**/*')
         .pipe(gulp.dest('public/js'));
     gulp.src('dev/fonts/**/**')
-        .pipe(gulp.dest('public/fonts/'))
+        .pipe(gulp.dest('public/fonts/'));
+    gulp.src('dev/assets/**/**')
+        .pipe(gulp.dest('public/assets/'))
 });
 gulp.task('bower', function() {
     return bower()
@@ -101,8 +103,8 @@ gulp.task('replace-bump',function(){
     });
 });
 gulp.task('watch', function () {
-    gulp.watch(['./public/*.html']);
-    gulp.watch('dev/js/**/*.js', ['copy'])
+    gulp.watch(['dev/**/*.scss'],['sass']);
+    gulp.watch(['dev/js/**/*.js','dev/js/**/*.html'], ['copy'])
         .on('change', function(evt) {
             console.log(
                 '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'

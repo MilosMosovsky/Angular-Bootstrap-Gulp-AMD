@@ -2,7 +2,7 @@ define(['../app'], function(app) {
     'use strict';
 
     app.constant('gitConstant',{
-        version : '36dfd7d2'
+        version : '0dd6adee'
     });
 
     app.run(['gitConstant', function(gitUtils){
