@@ -67,7 +67,7 @@ gulp.task('bower', function() {
     return bower()
         .pipe(gulp.dest('public/lib/'))
 });
-gulp.task('default', ['bower','sass'], function() {
+gulp.task('default', ['bower','sass','copy'], function() {
     // Watch the files in the paths object, and when there is a change, fun the functions in the array
     gulp.watch(paths.styles.files, ['sass'])
         // Also when there is a change, display what file was changed, only showing the path after the 'sass folder'
