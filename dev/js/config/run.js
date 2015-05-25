@@ -10,6 +10,6 @@ define(['../app'], function(app) {
     }]);
 
     app.config(['RestangularProvider', function (RestangularProvider) {
-        RestangularProvider.setBaseUrl('http://localhost:1234');
+        RestangularProvider.setBaseUrl('http://api-crm.cryptonite.sk');
     }]);
 });
