@@ -54,7 +54,7 @@ gulp.task('sass', function (){
         // Funally put the compiled sass into a css file
         .pipe(gulp.dest(paths.styles.dest))
 });
-gulp.task('copy',['replace-bump'], function()
+gulp.task('copy', function()
 {
     gulp.src('dev/js/**/*')
         .pipe(gulp.dest('public/js'));

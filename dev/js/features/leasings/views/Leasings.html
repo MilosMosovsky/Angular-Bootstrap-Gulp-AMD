@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-primary" ng-click="ctrl.open()">Pridať leasing</button>
+    </div>
+
+</div>
+<div class="divider">
+    <hr>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Splátkový kalendár</th>
+                <th>Výška úveru</th>
+
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="car in ctrl.leasings">
+                <td>{{car.leasingId}}</td>
+                <td>{{car.identifier}}</td>
+                <td>{{car.loanAmount | currency : '€' : 2}}</td>
+                <td><button class="btn btn-sm btn-warning" ui-sref="calendar({id : car.leasingId})">Splátkový kalendár</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- modal -->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Pridať leasing</h3>
+    </div>
+    <div class="modal-body">
+        <form name="addLeasing">
+            <div class="form-group">
+                <label >Splátkový kalendár</label>
+                <input type="text" ng-model="data.identifier" ng-required="true" class="form-control"  placeholder="Číslo">
+            </div>
+            <div class="form-group">
+                <label >Výška úveru</label>
+                <input type="text" ng-model="data.loanAmount" ng-required="true" class="form-control"  placeholder="Výška úveru">
+            </div>
+            <div class="form-group">
+                <label >Auto</label>
+                <ui-select ng-model="data.car" ng-required="true" theme="select2"  style="min-width: 300px;">
+                    <ui-select-match allow-clear="true" placeholder="Vyberte auto">{{$select.selected.identifier}}</ui-select-match>
+                    <ui-select-choices repeat="car.carId as car in cars">
+                        <div ng-bind-html="car.identifier | highlight: $select.search"></div>
+                        <small>
+                            Typ : {{car.carType}}
+                        </small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group">
+                <label >Je platca DPH</label>
+                <input type="checkbox" ng-model="data.isDPH" ng-required="true">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-disabled="addLeasing.$invalid" ng-click="ok()"><i class="glyphicon glyphicon-floppy-disk"></i> Uložiť</button>
+        <button class="btn btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> Zrušiť</button>
+    </div>
+</script>

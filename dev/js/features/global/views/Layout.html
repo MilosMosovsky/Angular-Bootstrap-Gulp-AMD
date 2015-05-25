@@ -5,7 +5,16 @@
 
 <!-- content -->
 <div class="container-fluid">
-    <div ui-view="content" class="content"></div>
+    <div class="col-lg-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" ui-sref-active="active"><a ui-sref="cars">Zoznam áut</a></li>
+            <li role="presentation"  ui-sref-active="active"><a ui-sref="leasings">Zoznam leasingov</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-10">
+        <div ui-view="content" class="content"></div>
+    </div>
+
 </div>
 <!-- end content -->
 
