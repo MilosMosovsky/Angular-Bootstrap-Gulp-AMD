@@ -3,10 +3,7 @@ define([
     'angular',
 /** main features **/
     'features/dashboard/feature',
-    'features/auth/feature',
-    'features/cars/feature',
-    'features/leasings/feature',
-    'features/calendar/feature'
+    'features/auth/feature'
 ], function (angular) {
 
     'use strict';
@@ -18,10 +15,7 @@ define([
         'ngSanitize',
         'ui.select',
         'dashboard.feature',
-        'auth.feature',
-        'cars.feature',
-        'leasings.feature',
-        'calendar.feature'
+        'auth.feature'
     ]);
     return app;
 });
