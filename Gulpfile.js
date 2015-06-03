@@ -1,7 +1,8 @@
 var gulp = require('gulp');
 var bower = require('gulp-bower');
 var sass = require('gulp-sass');
-var prefix = require('gulp-autoprefixer');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer-core');
 var connect = require('gulp-connect');
 var git = require('gulp-git');
 var replace = require('gulp-replace');
@@ -36,21 +37,24 @@ var displayError = function(error) {
 
 gulp.task('sass', function (){
     // Taking the path from the above object
+    var processors = [
+        autoprefixer({browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']})
+    ];
     gulp.src(paths.styles.files)
         // Sass options - make the output compressed and add the source map
         // Also pull the include path from the paths object
         .pipe(sass({
-            outputStyle: 'compressed',
+            /*outputStyle: 'compressed',*/
+            includePaths: require('node-bourbon').includePaths,
             sourceComments: 'map'
         }))
         // If there is an error, don't stop compiling but use the custom displayError function
         .on('error', function(err){
             displayError(err);
         })
+
         // Pass the compiled sass through the prefixer with defined
-        .pipe(prefix(
-            'last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'
-        ))
+        .pipe(postcss(processors))
         // Funally put the compiled sass into a css file
         .pipe(gulp.dest(paths.styles.dest))
 });
